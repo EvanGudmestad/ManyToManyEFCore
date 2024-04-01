@@ -1,0 +1,24 @@
+﻿@model Student
+<h1>Enroll new Student</h1>
+<form asp-action="EnrollNewStudent" method="post">
+    <div>
+        <label asp-for="Name">Student Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    @foreach (var course in ViewBag.Courses as List<Course>)
+    {
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="@course.CourseId" name="enrolledCourses" value="@course.CourseId" />
+            <label class="form-check-label" for="@course.CourseId">@course.Title</label>
+        </div>
+    }
+    <div>
+        <label asp-for="FinancialAidStatus">Financial Aid Status</label>
+        <select asp-for="FinancialAidStatus" class="form-control">
+            <option value="Passed">Accepted</option>
+            <option value="Failed">Denied</option>
+        </select>
+    </div>
+    <input type="hidden" asp-for="StudentId" />
+    <button type="submit" class="btn btn-primary">Enroll Student</button>
+</form>

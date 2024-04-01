@@ -1,0 +1,61 @@
+﻿@model List<Student>
+
+@{
+    ViewBag.Title = "Student Courses";
+}
+
+<a asp-action="EnrollNewStudent" class="btn btn-primary">Enroll New Student</a>
+
+<h1>Select Students By Course</h1>
+<form asp-action="ChangeCourse" method="post" id="courseForm">
+    <div>
+        <label class="form-label">Select A Course</label>
+        <select class="form-control" id="courseSelect" name="courseId">
+            <option value="">Select A Course</option>
+            @foreach(Course course in ViewBag.Courses)
+            {
+                if(ViewBag.SelectedCourse != null && ViewBag.SelectedCourse == course.CourseId)
+                {
+                    <option value="@course.CourseId" selected>@course.Title</option>
+                }
+                else
+                {
+                    <option value="@course.CourseId">@course.Title</option>
+                }
+            }
+        </select>
+    </div>
+    <script>
+        var selectElement = document.getElementById('courseSelect');
+        //Add event listener for change event
+        selectElement.addEventListener('change', function () {
+            var formElement = document.getElementById('courseForm');
+            formElement.submit();
+        })
+    </script>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Financial Aid</th>
+            <th>Enroll In Class</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Name</td>
+                <td>@student.FinancialAidStatus</td>
+                <td>
+                    <a asp-action="ChangeEnrollment" asp-controller="Student" class="btn btn-info" asp-route-id="@student.StudentId">Edit Enrolled Classes</a>
+                </td>
+                <td>
+                    <a asp-action="DeleteStudent" asp-controller="Student" class="btn btn-danger" asp-route-id="@student.StudentId">Delete Student</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
